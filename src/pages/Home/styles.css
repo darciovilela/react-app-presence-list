@@ -33,8 +33,15 @@
   font-size: 16px;
 }
 
-.container button {
+.container .buttons {
+  display: flex;
   width: 50%;
+  justify-content: space-between;
+  margin: 15px;
+}
+
+.container .button-add {
+  width: 45%;
   padding: 15px;
   font-weight: 700;
   background-color: green;
@@ -47,6 +54,26 @@
   font-size: 16px;
 }
 
+.container .button-clean {
+  width: 45%;
+  padding: 15px;
+  font-weight: 700;
+  background-color: rgb(218, 34, 34);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  margin: 12px 0 84px;
+  cursor: pointer;
+  transition: filter 0.5s;
+  font-size: 16px;
+}
+
 .container button:hover {
   filter: brightness(0.8);
+}
+
+form {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }

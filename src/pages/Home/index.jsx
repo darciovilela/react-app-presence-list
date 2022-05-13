@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './styles.css';
-
 import Card from '../../components/Card';
 
 function Home() {
   // usestate é o nome de um hook no qual armazenamos estado dentro dele. o conteudo do estado e funcao que atualiza o estado. parte final da expressao diz que começa com valor vazio.
   const [studentName, setStudentName] = useState('');
   const [students, setStudents] = useState([]);
+  // const [clean, setClean] = useState([]);
 
   const [user, setUser] = useState({ name: '', avatar: '' });
+
+  const cleanInput = useRef(null);
+
+  function resetForm() {
+    cleanInput.current.reset();
+  }
 
   function handleAddStudent() {
     const newStudent = {
@@ -28,7 +34,7 @@ function Home() {
   }
 
   useEffect(() => {
-    // corpo do useffect. o useeffect é chamado logo depois da renderizaçao da interface na tela. com os colchetes vazios ele vai executar por padrao apenas uma vez.
+    // corpo do useffect. o useefect é chamado logo depois da renderizaçao da interface na tela. com os colchetes vazios ele vai executar por padrao apenas uma vez.
     // fetch é o padrao javascript para requests em apis
     fetch('https://api.github.com/users/darciovilela')
       .then((response) => response.json())
@@ -49,19 +55,25 @@ function Home() {
           <img src={user.avatar} alt="foto de perfil do user" />
         </div>
       </header>
+      <form ref={cleanInput}>
+        <input
+          type="text"
+          autoFocus
+          placeholder="Digite o nome do aluno..."
+          onChange={(e) => setStudentName(e.target.value)}
+        />
+      </form>
+      <div className="buttons">
+        <button className="button-add" onClick={handleAddStudent}>
+          Adicionar
+        </button>
 
-      <input
-        type="text"
-        autoFocus
-        placeholder="Digite o nome..."
-        onChange={(e) => setStudentName(e.target.value)}
-      />
+        <button className="button-clean" onClick={resetForm}>
+          Limpar nome
+        </button>
+      </div>
 
-      <button type="button" onClick={handleAddStudent}>
-        Adicionar
-      </button>
-
-      {/* para componentes que são feitos a aprtir de loops é necessário colocar uma key para cada um */}
+      {/* para componentes que são feitos a partir de loops é necessário colocar uma key para cada um. nesse caso foi usada time que muda rapidamente. */}
       {students.map((student) => (
         <Card key={student.time} name={student.name} time={student.time} />
       ))}

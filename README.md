@@ -1,5 +1,8 @@
 ## Simple Presence List
 
-- Presence list with React Js
-- clone repo 
-- run npm run dev
+- Presence list with TypeScript
+
+### Running app
+- Clone repo
+- Run npm install
+- Run npm run dev

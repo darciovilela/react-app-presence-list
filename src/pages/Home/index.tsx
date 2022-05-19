@@ -16,12 +16,11 @@ type User = {
 }
 
 
-
 function Home() {
   // usestate é o nome de um hook no qual armazenamos estado dentro dele. o conteudo do estado e funcao que atualiza o estado. parte final da expressao diz que começa com valor vazio.
   const [studentName, setStudentName] = useState('');
   const [students, setStudents] = useState<CardProps[]>([]);
-  // const [clean, setClean] = useState([]);
+ 
 
   const [user, setUser] = useState<User>({} as User)
 

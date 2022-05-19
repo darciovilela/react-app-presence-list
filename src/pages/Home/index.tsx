@@ -25,7 +25,7 @@ function Home() {
 
   const [user, setUser] = useState<User>({} as User)
 
-  const cleanInput = useRef(null);
+  const cleanInput = useRef();
 
   function resetForm() {
     cleanInput.current.reset();

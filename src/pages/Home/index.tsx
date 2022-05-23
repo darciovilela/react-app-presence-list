@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import './styles.css';
 import Card from '../../components/Card';
 import CardProps from '../../components/Card';
+import { api } from '../../lib/api';
 
 // tipagens depois da conversão do app para typescript
 type ProfileResponse = {
   name: string;
   avatar_url: string;
 }
-
 
 type User = {
   name: string;
@@ -20,16 +20,13 @@ function Home() {
   // usestate é o nome de um hook no qual armazenamos estado dentro dele. o conteudo do estado e funcao que atualiza o estado. parte final da expressao diz que começa com valor vazio.
   const [studentName, setStudentName] = useState('');
   const [students, setStudents] = useState<CardProps[]>([]);
+  const [isSendingStudent, setIsSendingStudent] = useState(false)
  
-
   const [user, setUser] = useState<User>({} as User)
 
-  const cleanInput = useRef();
+  const cleanInput = useRef<HTMLFormElement>();
 
-  function resetForm() {
-    cleanInput.current.reset();
-  }
-
+  
   function handleAddStudent() {
     const newStudent = {
       // studentname é o local onde o meu estado está armazenado
@@ -42,16 +39,42 @@ function Home() {
     };
     // se deixo apenas assim, não vai adicionar um card para cada estudante. vai substituir sempre o mesmo card. princípio de imutabilidade.
     // setStudents([newStudent]);
-
+    
     // dessa forma ele vai acrescentar sempre um novo card para cada estudante. O uso do spread é para tirar do array.
+        
     setStudents((prevState) => [...prevState, newStudent]);
   }
+  
+  
+  function recordStudent() {
+    const rec = {
+      name: studentName,
+      time: new Date().toLocaleTimeString('pt-br', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }), 
+    }
+    
+    setIsSendingStudent(true)
+
+      api.post ('/', rec
+        
+      )
+        
+      setIsSendingStudent(false)
+        }
+        
+        
+    function resetForm() {
+      cleanInput.current?.reset();
+    }
 
   useEffect(() => {
     // corpo do useffect. o useeffect é chamado logo depois da renderizaçao da interface na tela. com os colchetes vazios ele vai executar por padrao apenas uma vez.
     // fetch é o padrao javascript para requests em apis
     fetch('https://api.github.com/users/darciovilela')
-      .then((response) => response.json() as ProfileResponse)
+      .then((response) => response.json() as Promise<ProfileResponse>)
       .then((data) => {
         setUser({
           name: data.name,
@@ -78,7 +101,11 @@ function Home() {
         />
       </form>
       <div className="buttons">
-        <button className="button-add" onClick={handleAddStudent}>
+        <button className="button-add" onClick={() => {
+          handleAddStudent();
+          recordStudent();
+        
+        }}>
           Adicionar
         </button>
 

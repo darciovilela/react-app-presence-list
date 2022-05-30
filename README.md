@@ -1,6 +1,10 @@
 ## Simple Presence List
 
-- Presence list with TypeScript
+- Presence list in React with TypeScript
+
+### Technology
+- React
+- TypeScript
 
 ### Running app
 - Clone repo
